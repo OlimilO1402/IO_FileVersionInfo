@@ -20,12 +20,12 @@ Option Explicit
 ' Datei auf einem Datenträger bereit.
 #If VBA7 Then
     'we assume in VBA7 ansi is obsolete
-    Private Declare PtrSafe Function pGetFileVersionInfoSize Lib "version" Alias "GetFileVersionInfoSizeW" (ByVal lptstrFilename As LongPtr, ByRef lpdwHandle As LongPtr) As Long
-    Private Declare PtrSafe Function pGetFileVersionInfo Lib "version" Alias "GetFileVersionInfoW" (ByVal lptstrFilename As LongPtr, ByVal dwHandle As LongPtr, ByVal dwLen As Long, lpData As Any) As Long
-    Private Declare PtrSafe Function pVerQueryValue Lib "version" Alias "VerQueryValueW" (pBlock As Any, ByVal lpSubBlock As LongPtr, lplpBuffer As Any, puLen As Long) As Long
-    Private Declare PtrSafe Function pVerLanguageName Lib "kernel32" Alias "VerLanguageNameW" (ByVal wLang As Long, ByVal szLang As LongPtr, ByVal nSize As Long) As Long
-    Private Declare PtrSafe Function plstrlen Lib "kernel32" Alias "lstrlenW" (ByVal lpString As LongPtr) As Long
-    Private Declare PtrSafe Function plstrcpy Lib "kernel32" Alias "lstrcpyW" (ByVal dst As LongPtr, ByVal src As LongPtr) As Long
+    Private Declare PtrSafe Function GetFileVersionInfoSize Lib "version" Alias "GetFileVersionInfoSizeW" (ByVal lptstrFilename As LongPtr, ByRef lpdwHandle As LongPtr) As Long
+    Private Declare PtrSafe Function GetFileVersionInfo Lib "version" Alias "GetFileVersionInfoW" (ByVal lptstrFilename As LongPtr, ByVal dwHandle As LongPtr, ByVal dwLen As Long, lpData As Any) As Long
+    Private Declare PtrSafe Function VerQueryValue Lib "version" Alias "VerQueryValueW" (pBlock As Any, ByVal lpSubBlock As LongPtr, lplpBuffer As Any, puLen As Long) As Long
+    Private Declare PtrSafe Function VerLanguageName Lib "kernel32" Alias "VerLanguageNameW" (ByVal wLang As Long, ByVal szLang As LongPtr, ByVal nSize As Long) As Long
+    Private Declare PtrSafe Function lstrlen Lib "kernel32" Alias "lstrlenW" (ByVal lpString As LongPtr) As Long
+    Private Declare PtrSafe Function lstrcpy Lib "kernel32" Alias "lstrcpyW" (ByVal dst As LongPtr, ByVal src As LongPtr) As Long
     Private Declare PtrSafe Sub RtlMoveMemory Lib "kernel32" (ByRef pDst As Any, ByRef pSrc As Any, ByVal bytLen As Long)
 #Else
 Private Enum LongPtr
@@ -33,19 +33,19 @@ Private Enum LongPtr
 End Enum
 #Const defUnicode = 1
 #If defUnicode Then
-    Private Declare Function pGetFileVersionInfoSize Lib "version" Alias "GetFileVersionInfoSizeW" (ByVal lptstrFilename As LongPtr, ByRef lpdwHandle As LongPtr) As Long
-    Private Declare Function pGetFileVersionInfo Lib "version" Alias "GetFileVersionInfoW" (ByVal lptstrFilename As LongPtr, ByVal dwHandle As LongPtr, ByVal dwLen As Long, lpData As Any) As Long
-    Private Declare Function pVerQueryValue Lib "version" Alias "VerQueryValueW" (pBlock As Any, ByVal lpSubBlock As LongPtr, lplpBuffer As Any, puLen As Long) As Long
-    Private Declare Function pVerLanguageName Lib "kernel32" Alias "VerLanguageNameW" (ByVal wLang As Long, ByVal szLang As LongPtr, ByVal nSize As Long) As Long
-    Private Declare Function plstrlen Lib "kernel32" Alias "lstrlenW" (ByVal lpString As LongPtr) As Long
-    Private Declare Function plstrcpy Lib "kernel32" Alias "lstrcpyW" (ByVal dst As LongPtr, ByVal src As LongPtr) As Long
+    Private Declare Function GetFileVersionInfoSize Lib "version" Alias "GetFileVersionInfoSizeW" (ByVal lptstrFilename As LongPtr, ByRef lpdwHandle As LongPtr) As Long
+    Private Declare Function GetFileVersionInfo Lib "version" Alias "GetFileVersionInfoW" (ByVal lptstrFilename As LongPtr, ByVal dwHandle As LongPtr, ByVal dwLen As Long, lpData As Any) As Long
+    Private Declare Function VerQueryValue Lib "version" Alias "VerQueryValueW" (pBlock As Any, ByVal lpSubBlock As LongPtr, lplpBuffer As Any, puLen As Long) As Long
+    Private Declare Function VerLanguageName Lib "kernel32" Alias "VerLanguageNameW" (ByVal wLang As Long, ByVal szLang As LongPtr, ByVal nSize As Long) As Long
+    Private Declare Function lstrlen Lib "kernel32" Alias "lstrlenW" (ByVal lpString As LongPtr) As Long
+    Private Declare Function lstrcpy Lib "kernel32" Alias "lstrcpyW" (ByVal dst As LongPtr, ByVal src As LongPtr) As Long
 #Else
-    Private Declare Function pGetFileVersionInfoSize Lib "version" Alias "GetFileVersionInfoSizeA" (ByVal lptstrFilename As LongPtr, ByRef lpdwHandle As LongPtr) As Long
-    Private Declare Function pGetFileVersionInfo Lib "version" Alias "GetFileVersionInfoA" (ByVal lptstrFilename As LongPtr, ByVal dwHandle As Long, ByVal dwLen As Long, lpData As Any) As Long
-    Private Declare Function pVerQueryValue Lib "version" Alias "VerQueryValueA" (pBlock As Any, ByVal lpSubBlock As LongPtr, lplpBuffer As Any, puLen As Long) As Long
-    Private Declare Function pVerLanguageName Lib "kernel32" Alias "VerLanguageNameA" (ByVal wLang As Long, ByVal szLang As LongPtr, ByVal nSize As Long) As Long
-    Private Declare Function plstrlen Lib "kernel32" Alias "lstrlenA" (ByVal lpString As LongPtr) As Long
-    Private Declare Function plstrcpy Lib "kernel32" Alias "lstrcpyA" (ByVal dst As LongPtr, ByVal src As LongPtr) As Long
+    Private Declare Function GetFileVersionInfoSize Lib "version" Alias "GetFileVersionInfoSizeA" (ByVal lptstrFilename As LongPtr, ByRef lpdwHandle As LongPtr) As Long
+    Private Declare Function GetFileVersionInfo Lib "version" Alias "GetFileVersionInfoA" (ByVal lptstrFilename As LongPtr, ByVal dwHandle As Long, ByVal dwLen As Long, lpData As Any) As Long
+    Private Declare Function VerQueryValue Lib "version" Alias "VerQueryValueA" (pBlock As Any, ByVal lpSubBlock As LongPtr, lplpBuffer As Any, puLen As Long) As Long
+    Private Declare Function VerLanguageName Lib "kernel32" Alias "VerLanguageNameA" (ByVal wLang As Long, ByVal szLang As LongPtr, ByVal nSize As Long) As Long
+    Private Declare Function lstrlen Lib "kernel32" Alias "lstrlenA" (ByVal lpString As LongPtr) As Long
+    Private Declare Function lstrcpy Lib "kernel32" Alias "lstrcpyA" (ByVal dst As LongPtr, ByVal src As LongPtr) As Long
 #End If
 Private Declare Sub RtlMoveMemory Lib "kernel32" (ByRef pDst As Any, ByRef pSrc As Any, ByVal bytLen As Long)
 
@@ -145,34 +145,27 @@ Private mSpecialBuild     As String
 
 Friend Sub New_(aPathFileName As String)
     mFileName = aPathFileName
-'End Sub
-
-'Public Shared Function GetVersionInfo(ByVal fileName As String) As System.Diagnostics.FileVersionInfo
-'Public Function GetVersionInfo(ByVal FileName As String) As FileVersionInfo
     If (LenB(Dir$(mFileName)) = 0) Then
         MsgBox "FileNotFoundException: " & mFileName
         Exit Sub
     End If
-    Dim num2 As Long: num2 = pGetFileVersionInfoSize(StrPtr(mFileName), 0)
-    'Dim info1 As FileVersionInfo: Set info1 = New_FileVersionInfo(FileName)
-    If (num2 = 0) Then
+    Dim siz As Long: siz = GetFileVersionInfoSize(StrPtr(mFileName), 0)
+    If (siz = 0) Then
         'Set GetVersionInfo = info1:
-        Exit Sub
     End If
-    Dim buffer1() As Byte: ReDim buffer1(0 To num2 - 1)
-    Dim numRef1 As LongPtr: numRef1 = VarPtr(buffer1(0))
-    Dim ptr1 As LongPtr: ptr1 = numRef1 ': Set ptr1 = New_IntPtr(numRef1)
-    If CBool(pGetFileVersionInfo(StrPtr(mFileName), 0, num2, ByVal ptr1)) Then
+    ReDim Buffer(0 To siz - 1)
+    Dim pBuffer  As LongPtr: pBuffer = VarPtr(Buffer(0))
+    If CBool(GetFileVersionInfo(StrPtr(mFileName), 0, siz, ByVal pBuffer)) Then
         'Debug.Print buffer1
-        Dim num3 As Long: num3 = GetVarEntry(ptr1)
+        Dim ve As Long: ve = GetVarEntry(pBuffer) 'num3
         'If Not info1.GetVersionInfoForCodePage(ptr1, ConvertTo8DigitHex(num3)) Then
-        If Not GetVersionInfoForCodePage(ptr1, ConvertTo8DigitHex(num3)) Then
+        If Not GetVersionInfoForCodePage(pBuffer, ConvertTo8DigitHex(ve)) Then
             'Wenn die Sprache nicht geklappt hat, dann noch mit den drei anderen probieren
-            Dim num4, numArray1: numArray1 = Array(&H40904B0, &H40904E4, &H4090000)
-            For Each num4 In numArray1
-                If (num4 <> num3) Then
+            Dim v, vArr: vArr = Array(&H40904B0, &H40904E4, &H4090000) 'num4
+            For Each v In vArr
+                If (v <> ve) Then
                     'If info1.GetVersionInfoForCodePage(ptr1, ConvertTo8DigitHex(num4)) Then
-                    If GetVersionInfoForCodePage(ptr1, ConvertTo8DigitHex(num4)) Then
+                    If GetVersionInfoForCodePage(pBuffer, ConvertTo8DigitHex(v)) Then
                         Exit For
                     End If
                 End If
@@ -189,14 +182,14 @@ End Function
 
 'Private Shared Function ConvertTo8DigitHex(ByVal value As Integer) As String
 Friend Function ConvertTo8DigitHex(ByVal value As Long) As String
-    Dim StrVal As String: StrVal = Hex$(value)
-    ConvertTo8DigitHex = String$(8 - Len(StrVal), "0") & StrVal
+    Dim s As String: s = Hex$(value)
+    ConvertTo8DigitHex = String$(8 - Len(s), "0") & s
 End Function
 
 'Private Shared Function GetVarEntry(ByVal memPtr As IntPtr) As Integer
 Friend Function GetVarEntry(ByVal memPtr As LongPtr) As Long
     Dim num1 As Long, ptr1 As LongPtr
-    If pVerQueryValue(ByVal memPtr, StrPtr("\VarFileInfo\Translation"), ByVal VarPtr(ptr1), num1) Then
+    If VerQueryValue(ByVal memPtr, StrPtr("\VarFileInfo\Translation"), ByVal VarPtr(ptr1), num1) Then
         GetVarEntry = ShL(ReadInt16(ptr1), 16) + CLng(ReadInt16(ptr1, 2))
         Exit Function
     End If
@@ -207,15 +200,15 @@ End Function
 Friend Function GetFileVersionLanguage(ByVal memPtr As LongPtr) As String
     Dim num1 As Long: num1 = ShR(GetVarEntry(memPtr), 16)
     'Dim buffer As String * 256
-    ReDim buffer(0 To 511) As Byte
-    Dim L As Long: L = pVerLanguageName(num1, VarPtr(buffer(0)), 256)  'hmm hier * 2???????????????????????
-    GetFileVersionLanguage = Left$(buffer, L)
+    ReDim Buffer(0 To 511) As Byte
+    Dim l As Long: l = VerLanguageName(num1, VarPtr(Buffer(0)), 256)  'hmm hier * 2???????????????????????
+    GetFileVersionLanguage = Left$(Buffer, l)
 End Function
 
 'Private Shared Function GetFileVersionString(ByVal memPtr As IntPtr, ByVal name As String) As String
 Friend Function GetFileVersionString(ByVal memPtr As LongPtr, ByVal name As String) As String
     Dim num1 As Long, ptr1 As LongPtr
-    If pVerQueryValue(ByVal memPtr, StrPtr(name), ptr1, num1) Then
+    If VerQueryValue(ByVal memPtr, StrPtr(name), ptr1, num1) Then
         If (ptr1 <> 0) Then
             GetFileVersionString = PtrToString(ptr1)
         End If
@@ -254,7 +247,7 @@ End Function
 'Private Shared Function GetFixedFileInfo(ByVal memPtr As IntPtr) As VS_FIXEDFILEINFO
 Friend Function GetFixedFileInfo(ByVal memPtr As LongPtr) As VS_FIXEDFILEINFO
     Dim num1 As Long, ptr As LongPtr
-    pVerQueryValue ByVal memPtr, StrPtr("\"), ptr, num1
+    VerQueryValue ByVal memPtr, StrPtr("\"), ptr, num1
     PtrToStructure ptr, VarPtr(GetFixedFileInfo), LenB(GetFixedFileInfo)
 End Function
 
@@ -282,17 +275,17 @@ End Function
 
 '##############################'  Marshal   '##############################'
 Private Function ReadInt16(ByVal ptr As LongPtr, Optional ByVal ofs As Long) As Integer
-    '                        pDst             , pSrc
-    Call RtlMoveMemory(ByVal VarPtr(ReadInt16), ByVal (ptr + ofs), 2)
+    '                   pDst             , pSrc
+    RtlMoveMemory ByVal VarPtr(ReadInt16), ByVal (ptr + ofs), 2
 End Function
-Private Function PtrToString(ByVal ptr As LongPtr, Optional ByVal sLen As Long) As String
-    If (ptr = 0) Then
-      MsgBox "Marshal.PtrToString: Ptr=Nullpointer"
-      Exit Function
+Private Function PtrToString(ByVal pStr As LongPtr, Optional ByVal sLen As Long) As String
+    If (pStr = 0) Then
+        MsgBox "Marshal.PtrToString: pStr=Nullpointer"
+        Exit Function
     End If
-    Dim num1 As Long: num1 = plstrlen(ptr)
-    PtrToString = Space$(num1)
-    Call plstrcpy(StrPtr(PtrToString), ptr)
+    Dim l As Long: l = lstrlen(pStr)
+    PtrToString = Space$(l)
+    lstrcpy StrPtr(PtrToString), pStr
 #If defUnicode Then
     'ist es dann schon der richtige String?
     'MsgBox PtrToString
@@ -305,7 +298,7 @@ End Function
 Private Sub PtrToStructure(ByVal ptr As LongPtr, ByVal pStruct As LongPtr, ByVal LenBStruct As Long)
     'hier wird nicht der Pointer übertragen, sondern vielmehr der gesamte Speicherbereich
     'in das Objekt structure hineinkopiert
-    Call RtlMoveMemory(ByVal pStruct, ByVal ptr, LenBStruct)
+    RtlMoveMemory ByVal pStruct, ByVal ptr, LenBStruct
 End Sub
 
 

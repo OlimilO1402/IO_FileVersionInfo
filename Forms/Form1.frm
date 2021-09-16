@@ -60,7 +60,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
-Private FileVersionInfo As New FileVersionInfo
+Private FVInfo As FileVersionInfo
 
 Private Sub BtnInfo_Click()
     MsgBox App.CompanyName & " " & App.ProductName & " v" & App.Major & "." & App.Minor & "." & App.Revision & vbCrLf & _
@@ -73,26 +73,27 @@ End Sub
 
 Private Sub BtnFileVersion_Click()
 Try: On Error GoTo Catch
-    Dim VI As FileVersionInfo: Set VI = MNew.FileVersionInfo(TxtFileName.Text)
-    TxtFileVersionInfo.Text = VI.ToStr
+    Set FVInfo = MNew.FileVersionInfo(TxtFileName.Text)
+    If FVInfo Is Nothing Then Exit Sub
+    TxtFileVersionInfo.Text = FVInfo.ToStr
     Exit Sub
 Catch:
     MsgBox ("Probably file not found")
 End Sub
 
 Private Sub Form_Resize()
-    Dim L As Single, T As Single, W As Single, H As Single
+    Dim l As Single, T As Single, W As Single, H As Single
     Dim Brdr As Single ': Brdr = 8 * 15
-    L = TxtFileName.Left
+    l = TxtFileName.Left
     T = TxtFileName.Top
-    W = Form1.ScaleWidth - Brdr - L
+    W = Form1.ScaleWidth - Brdr - l
     H = TxtFileName.Height
-    If ((W > 0) And (H > 0)) Then Call TxtFileName.Move(L, T, W, H)
-    L = TxtFileVersionInfo.Left
+    If ((W > 0) And (H > 0)) Then Call TxtFileName.Move(l, T, W, H)
+    l = TxtFileVersionInfo.Left
     T = TxtFileVersionInfo.Top
-    W = Form1.ScaleWidth - Brdr - L
+    W = Form1.ScaleWidth - Brdr - l
     H = Form1.ScaleHeight - Brdr - T
-    If ((W > 0) And (H > 0)) Then Call TxtFileVersionInfo.Move(L, T, W, H)
+    If ((W > 0) And (H > 0)) Then Call TxtFileVersionInfo.Move(l, T, W, H)
 End Sub
 
 Private Sub TxtFileName_KeyUp(KeyCode As Integer, Shift As Integer)
