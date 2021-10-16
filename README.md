@@ -15,3 +15,14 @@ You may also have a look at the tutorial: [VB-anywhere](https://github.com/Olimi
 Project started around jan.2007.  
 
 ![FileVersionInfo Image](Resources/FileVersionInfo.png "FileVersionInfo Image")
+
+some useful links:
+https://stackoverflow.com/questions/26151534/whats-the-supportedos-guid-for-windows-10
+
+https://stackoverflow.com/questions/25986331/how-to-determine-windows-version-in-future-proof-way/25986612#25986612
+
+(see the answer to the question)
+https://docs.microsoft.com/de-de/windows/win32/sbscs/application-manifests?redirectedfrom=MSDN
+
+
+https://en.wikipedia.org/wiki/List_of_Microsoft_Windows_versions
