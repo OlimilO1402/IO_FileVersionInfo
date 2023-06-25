@@ -1,6 +1,6 @@
 VERSION 5.00
 Begin VB.Form Form1 
-   Caption         =   "Form1"
+   Caption         =   "FileVersionInfo"
    ClientHeight    =   6015
    ClientLeft      =   60
    ClientTop       =   450
@@ -68,7 +68,9 @@ Private Sub BtnInfo_Click()
 End Sub
 
 Private Sub Form_Load()
+    Me.Caption = Me.Caption & " v" & App.Major & "." & App.Minor & "." & App.Revision
     TxtFileName.Text = "C:\Windows\System32\kernel32.dll"
+    'TxtFileName.Text = "C:\Windows\System32\msvcr100.dll"
 End Sub
 
 Private Sub BtnFileVersion_Click()

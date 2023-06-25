@@ -109,16 +109,16 @@ Private Const MAX_PATH             As Long = 260
 'the versions here are only words so drop the "d"
 Private Type VS_FIXEDFILEINFO
     dwSignature        As Long
-    wStrucVersionl     As Integer ' minor
-    wStrucVersionh     As Integer 'major
-    wFileVersionMSl    As Integer ' minor
-    wFileVersionMSh    As Integer 'major
-    wFileVersionLSl    As Integer '   private
-    wFileVersionLSh    As Integer '  build
-    wProductVersionMSl As Integer ' minor
-    wProductVersionMSh As Integer 'major
-    wProductVersionLSl As Integer '   private
-    wProductVersionLSh As Integer '  build
+    wStrucVersionl     As Integer ' minor      'unsigned!
+    wStrucVersionh     As Integer 'major       'unsigned!
+    wFileVersionMSl    As Integer ' minor      'unsigned!
+    wFileVersionMSh    As Integer 'major       'unsigned!
+    wFileVersionLSl    As Integer '   private  'unsigned!
+    wFileVersionLSh    As Integer '  build     'unsigned!
+    wProductVersionMSl As Integer ' minor      'unsigned!
+    wProductVersionMSh As Integer 'major       'unsigned!
+    wProductVersionLSl As Integer '   private  'unsigned!
+    wProductVersionLSh As Integer '  build     'unsigned!
     dwFileFlagsMask    As Long
     dwFileFlags        As Long
     dwFileOS           As Long
@@ -144,6 +144,7 @@ Private mProductVersion   As String
 Private mSpecialBuild     As String
 
 Friend Sub New_(aPathFileName As String)
+Try: On Error GoTo Catch
     mFileName = aPathFileName
     If (LenB(Dir$(mFileName)) = 0) Then
         MsgBox "FileNotFoundException: " & mFileName
@@ -153,7 +154,7 @@ Friend Sub New_(aPathFileName As String)
     If (siz = 0) Then
         'Set GetVersionInfo = info1:
     End If
-    ReDim Buffer(0 To siz - 1)
+    ReDim Buffer(0 To siz - 1) As Byte
     Dim pBuffer  As LongPtr: pBuffer = VarPtr(Buffer(0))
     If CBool(GetFileVersionInfo(StrPtr(mFileName), 0, siz, ByVal pBuffer)) Then
         'Debug.Print buffer1
@@ -173,6 +174,9 @@ Friend Sub New_(aPathFileName As String)
         End If
     End If
     'Set GetVersionInfo = info1
+    Exit Sub
+Catch:
+    MsgBox "Error in creating FileVersionInfo"
 End Sub
 
 'in ein Modul MNew kopieren
@@ -301,7 +305,6 @@ Private Sub PtrToStructure(ByVal ptr As LongPtr, ByVal pStruct As LongPtr, ByVal
     RtlMoveMemory ByVal pStruct, ByVal ptr, LenBStruct
 End Sub
 
-
 '##############################'   My Properties   '##############################'
 'All properties ReadOnly
 Public Property Get FileName() As String:                 FileName = mFileName:         End Property
@@ -317,10 +320,10 @@ Public Property Get SpecialBuild() As String:         SpecialBuild = mSpecialBui
 
 '##############################'    Fileversion    '##############################'
 Public Property Get FileVersion() As String:       FileVersion = mFileVersion:                      End Property
-Public Property Get FileMajorPart() As Long:     FileMajorPart = CLng(mVSFileInfo.wFileVersionMSh): End Property
-Public Property Get FileMinorPart() As Long:     FileMinorPart = CLng(mVSFileInfo.wFileVersionMSl): End Property
-Public Property Get FileBuildPart() As Long:     FileBuildPart = CLng(mVSFileInfo.wFileVersionLSh): End Property
-Public Property Get FilePrivatePart() As Long: FilePrivatePart = CLng(mVSFileInfo.wFileVersionLSl): End Property
+Public Property Get FileMajorPart() As Long:     FileMajorPart = UInt16_ToInt32(mVSFileInfo.wFileVersionMSh): End Property
+Public Property Get FileMinorPart() As Long:     FileMinorPart = UInt16_ToInt32(mVSFileInfo.wFileVersionMSl): End Property
+Public Property Get FileBuildPart() As Long:     FileBuildPart = UInt16_ToInt32(mVSFileInfo.wFileVersionLSh): End Property
+Public Property Get FilePrivatePart() As Long: FilePrivatePart = UInt16_ToInt32(mVSFileInfo.wFileVersionLSl): End Property
 
 '------------------------------------------------------------------
 Public Property Get FileDescription() As String:  FileDescription = mFileDescription: End Property
@@ -329,11 +332,14 @@ Public Property Get ProductName() As String:  ProductName = mProductName: End Pr
 
 '##############################'  Productversion   '##############################'
 Public Property Get ProductVersion() As String:       ProductVersion = mProductVersion:                      End Property
-Public Property Get ProductMajorPart() As Long:     ProductMajorPart = CLng(mVSFileInfo.wProductVersionMSh): End Property
-Public Property Get ProductMinorPart() As Long:     ProductMinorPart = CLng(mVSFileInfo.wProductVersionMSl): End Property
-Public Property Get ProductBuildPart() As Long:     ProductBuildPart = CLng(mVSFileInfo.wProductVersionLSh): End Property
-Public Property Get ProductPrivatePart() As Long: ProductPrivatePart = CLng(mVSFileInfo.wProductVersionLSl): End Property
+Public Property Get ProductMajorPart() As Long:     ProductMajorPart = UInt16_ToInt32(mVSFileInfo.wProductVersionMSh): End Property
+Public Property Get ProductMinorPart() As Long:     ProductMinorPart = UInt16_ToInt32(mVSFileInfo.wProductVersionMSl): End Property
+Public Property Get ProductBuildPart() As Long:     ProductBuildPart = UInt16_ToInt32(mVSFileInfo.wProductVersionLSh): End Property
+Public Property Get ProductPrivatePart() As Long: ProductPrivatePart = UInt16_ToInt32(mVSFileInfo.wProductVersionLSl): End Property
 
+Private Function UInt16_ToInt32(ByVal uint16 As Integer) As Long
+    If uint16 < 0 Then UInt16_ToInt32 = 65536 + uint16 Else UInt16_ToInt32 = uint16
+End Function
 
 '##############################'    Bool Props     '##############################'
 'All properties ReadOnly
