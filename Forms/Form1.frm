@@ -62,15 +62,15 @@ Attribute VB_Exposed = False
 Option Explicit
 Private FVInfo As FileVersionInfo
 
-Private Sub BtnInfo_Click()
-    MsgBox App.CompanyName & " " & App.ProductName & " v" & App.Major & "." & App.Minor & "." & App.Revision & vbCrLf & _
-           App.FileDescription & vbCrLf & "Hint: " & App.Comments, vbInformation
-End Sub
-
 Private Sub Form_Load()
     Me.Caption = Me.Caption & " v" & App.Major & "." & App.Minor & "." & App.Revision
     TxtFileName.Text = "C:\Windows\System32\kernel32.dll"
     'TxtFileName.Text = "C:\Windows\System32\msvcr100.dll"
+End Sub
+
+Private Sub BtnInfo_Click()
+    MsgBox App.CompanyName & " " & App.ProductName & " v" & App.Major & "." & App.Minor & "." & App.Revision & vbCrLf & _
+           App.FileDescription & vbCrLf & "Hint: " & App.Comments, vbInformation
 End Sub
 
 Private Sub BtnFileVersion_Click()

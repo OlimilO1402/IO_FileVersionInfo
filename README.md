@@ -3,8 +3,8 @@
 
 [![GitHub](https://img.shields.io/github/license/OlimilO1402/IO_FileVersionInfo?style=plastic)](https://github.com/OlimilO1402/IO_FileVersionInfo/blob/master/LICENSE) 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/OlimilO1402/IO_FileVersionInfo?style=plastic)](https://github.com/OlimilO1402/IO_FileVersionInfo/releases/latest)
-[![Github All Releases](https://img.shields.io/github/downloads/OlimilO1402/IO_FileVersionInfo/total.svg)](https://github.com/OlimilO1402/IO_FileVersionInfo/releases/download/v1.2.9/IO_FileVersionInfo_v1.2.9.zip)
-[![Follow](https://img.shields.io/github/followers/OlimilO1402.svg?style=social&label=Follow&maxAge=2592000)](https://github.com/OlimilO1402/IO_FileVersionInfo/watchers)
+[![Github All Releases](https://img.shields.io/github/downloads/OlimilO1402/IO_FileVersionInfo/total.svg)](https://github.com/OlimilO1402/IO_FileVersionInfo/releases/download/v2023.6.25/IO_FileVersionInfo_v2023.6.25.zip)
+![GitHub followers](https://img.shields.io/github/followers/OlimilO1402?style=social)
 
 
 This repo contains the class FileVersionInfo. It works like the same class in .net namespace System.Diagnostics  
